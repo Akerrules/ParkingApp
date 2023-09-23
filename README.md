@@ -1,5 +1,7 @@
 # ParkingApp for Hamilton
 
-User will be able to locate closest parking meter near them 
-User will be able to check if they are allowed to park near on the street
+Users will be able to locate the closest parking meter near them. 
+
+Users will be able to check if they are allowed to park near the street
+
 Nearby municipal lot and prices per hourly

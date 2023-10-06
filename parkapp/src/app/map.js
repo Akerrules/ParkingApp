@@ -13,6 +13,7 @@ export default function Map() {
   const [selectedPlace, setSelectedPlace] = useState(null);
   const [searchLngLat, setSearchLngLat] = useState(null);
   const [markers, setMarker] = useState(null);
+  const [bikeRacks, setBikeRacks] = useState(null);
   const [test, setTest] = useState(false);
 
   // load script for google map
@@ -22,7 +23,7 @@ export default function Map() {
 
   const fetchData = async () => {
     try {
-      const response = await fetch("/api/allData");
+      const response = await fetch("/api/parking_meter");
       const data = await response.json();
       setMarker(data);
       // console.log(markers.keys());
@@ -31,14 +32,25 @@ export default function Map() {
       console.error("Error retrieving data:", error);
     }
   };
-
+  const fetchData_bikeRack = async () => {
+    try {
+      const response = await fetch("/api/bike_rack");
+      const data = await response.json();
+      setBikeRacks(data);
+      // console.log(markers.keys());
+      console.log("bike)rack");
+    } catch (error) {
+      console.error("Error retrieving data:", error);
+    }
+  };
   useEffect(() => {
     fetchData();
+    fetchData_bikeRack();
   }, []);
 
-  useEffect(() => {
-    console.log(markers);
-  }, [markers]);
+  // useEffect(() => {
+  //   console.log(markers);
+  // }, [markers]);
 
   console.log(typeof markers);
   if (!isLoaded) return <div>Loading....</div>;
@@ -78,7 +90,7 @@ export default function Map() {
 
   return (
     <main className=" overflow-hidden   ">
-      <div className=" bg-white   flex items-center justify-center">
+      <div className=" bg-white flex items-center justify-center">
         <GoogleMap
           zoom={currentLocation || selectedPlace ? 18 : 12}
           center={currentLocation || searchLngLat || center}
@@ -128,7 +140,24 @@ export default function Map() {
                 }}
                 icon={{
                   //<img width="50" height="50" src="https://img.icons8.com/ios-filled/50/228BE6/map-pin.png" alt="map-pin"/>
-                  url: "https://img.icons8.com/ios-filled/50/228BE6/map-pin.png",
+                  url: "https://img.icons8.com/ios/50/228BE6/parking.png",
+                  // url: "https://giphy.com/embed/XDXAoqk0qOicLgOkMZ",
+                  anchor: new google.maps.Point(17, 46),
+
+                  scaledSize: new google.maps.Size(37, 37),
+                }}
+              />
+            ))}
+          {bikeRacks &&
+            Object.keys(bikeRacks).map((key, index) => (
+              <MarkerF
+                position={{
+                  lat: bikeRacks[key].geometry.coordinates[1],
+                  lng: bikeRacks[key].geometry.coordinates[0],
+                }}
+                icon={{
+                  //<img width="50" height="50" src="https://img.icons8.com/ios-filled/50/228BE6/map-pin.png" alt="map-pin"/>
+                  url: "https://img.icons8.com/material-sharp/24/40C057/bicycle.png",
                   // url: "https://giphy.com/embed/XDXAoqk0qOicLgOkMZ",
                   anchor: new google.maps.Point(17, 46),
 

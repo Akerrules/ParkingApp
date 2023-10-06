@@ -26,7 +26,7 @@ export default function Home() {
     <main className="bg-slate-600 min-h-screen overflow-hidden">
       <div className="absolute top-0 left-0 right-0 z-10 w-full  ">
         <div className="  flex items-center justify-center text-4xl text-black     m-10">
-          <a className="flex items-center justify-center bg-white w-1/2 shadow-xl rounded-full p-1 ">
+          <a className="flex items-center  font-mono justify-center bg-white w-1/2 shadow-xl rounded-full p-1 ">
             <p>Hamilton Parking</p>
           </a>
         </div>

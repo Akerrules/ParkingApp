@@ -1,5 +1,6 @@
 from flask import Flask
 import json 
+import requests
 from flask import jsonify, request,make_response
 import pandas as pd
 import geojson
@@ -14,15 +15,26 @@ def hello_world():
     return jsonify("Hello World!")
 
 
-@app.route('/api/allData', methods=['GET'])
-def readData():
-    with open("./data/Parking_Meters.geojson") as f:
-        gj = geojson.load(f)
+
+
+def readData(url):
+    res = requests.get(url).text
+    gj = geojson.loads(res)
     features = gj['features']
     dic = {}
     for i in range(len(features)):
         dic[i] = features[i]
-    return (dic)
+    return dic
 
-def sortData():
-    print
+@app.route('/api/bike_rack', methods=['GET'])           
+def bike_rack():
+    url = "https://spatialsolutions.hamilton.ca/webgis/rest/services/OpenData/Spatial_Collection_5/MapServer/8/query?outFields=*&where=1%3D1&f=geojson"
+    res  = readData(url)
+    return res
+
+@app.route('/api/parking_meter', methods=['GET'])           
+def parking_meter():
+    url = "https://spatialsolutions.hamilton.ca/webgis/rest/services/OpenData/Spatial_Collection_6/MapServer/4/query?outFields=*&where=1%3D1&f=geojson"
+    res  = readData(url)
+    return res
+

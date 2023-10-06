@@ -26,6 +26,18 @@ def readData(url):
         dic[i] = features[i]
     return dic
 
+
+
+@app.route('/api/bike_path', methods=['GET'])  
+def bike_path():
+    with open("./data/Bikeways.geojson") as f:
+         gj = geojson.load(f)
+    features = gj['features']
+    dic = {}
+    for i in range(len(features)):
+        dic[i] = features[i]
+    return dic
+    
 @app.route('/api/bike_rack', methods=['GET'])           
 def bike_rack():
     url = "https://spatialsolutions.hamilton.ca/webgis/rest/services/OpenData/Spatial_Collection_5/MapServer/8/query?outFields=*&where=1%3D1&f=geojson"

@@ -25,19 +25,19 @@ export default function Home() {
   return (
     <main className="bg-slate-600 min-h-screen overflow-hidden">
       <div className="absolute top-0 left-0 right-0 z-10 w-full  ">
-        <div className="  flex items-center justify-center text-4xl text-black     m-10">
-          <a className="flex items-center  font-mono justify-center bg-white w-1/2 shadow-xl rounded-full p-1 ">
+        <div className="  flex items-center justify-center text-4xl md:text-4xl sm:text-sm text-base text-black     m-10">
+          <a className="flex items-center  font-mono justify-center bg-white  shadow-xl rounded-full pl-10 pr-10 p-1 ">
             <p>Hamilton Parking</p>
           </a>
         </div>
         <div className="flex justify-center items-center flex-col">
           <div className=" p-10 w-full">
             <form className="flex flex-row place-content-evenly">
-              <label>
+              {/* <label>
                 <a className="p-10">Name:</a>
                 <input type="text" name="name" />
-              </label>
-              <label
+              </label> */}
+              {/* <label
                 for="default-range"
                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
               >
@@ -49,7 +49,7 @@ export default function Home() {
                   class="w-96 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
                   onChange={(e) => setRadius(e.target.value)}
                 />
-              </label>
+              </label> */}
             </form>
           </div>
         </div>

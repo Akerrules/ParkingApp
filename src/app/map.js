@@ -1,7 +1,6 @@
 "use client";
 import Image from "next/image";
 import { useState, useRef, useEffect } from "react";
-import Decimal from "decimal.js";
 import MarkerUi from "./component/markerui";
 import {
   GoogleMap,

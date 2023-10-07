@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import Map from "./map";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import {
   GoogleMap,
   Marker,
@@ -11,16 +11,25 @@ import {
 import { validateConfig } from "next/dist/server/config-shared";
 export default function Home() {
   const [radius, setRadius] = useState(0);
+  const [googleMapsApiKeyvar, setGoogleMapsApiKey] = useState(null);
 
-  const fetchData = async () => {
+  const fetchApiKey = async () => {
     try {
-      const response = await fetch("/api/hello");
-      const data = await response.json();
-      console.log(data);
+      const response = await fetch("/api/googelmapApi");
+      const apiKey = await response.text();
+      setGoogleMapsApiKey(apiKey);
     } catch (error) {
-      console.error("Error retrieving data:", error);
+      console.error("Error fetching Google Maps API key", error);
     }
   };
+
+  useEffect(() => {
+    fetchApiKey();
+  }, []);
+
+  useEffect(() => {
+    console.log(googleMapsApiKeyvar + " test api");
+  }, [googleMapsApiKeyvar]);
 
   return (
     <main className="bg-slate-600 min-h-screen overflow-hidden">
@@ -55,7 +64,7 @@ export default function Home() {
         </div>
       </div>
       <div className="w-full  overflow-hidden">
-        <Map></Map>
+        {googleMapsApiKeyvar && <Map parentToChild={googleMapsApiKeyvar} />}
       </div>
     </main>
   );

@@ -1,5 +1,4 @@
 "use client";
-import Image from "next/image";
 import { useState, useRef, useEffect } from "react";
 import MarkerUi from "./component/markerui";
 import {
@@ -9,7 +8,7 @@ import {
   Polyline,
   useLoadScript,
 } from "@react-google-maps/api";
-export default function Map() {
+export default function Map(parentToChild) {
   const [currentLocation, setCurrentLocation] = useState(null);
   const [selectedPlace, setSelectedPlace] = useState(null);
   const [searchLngLat, setSearchLngLat] = useState(null);
@@ -19,13 +18,9 @@ export default function Map() {
   const [markerUi, setMarkerUI] = useState(null);
   const [markerUiP, setMarkerUIP] = useState(null);
 
-  const [path, setPath] = useState([
-    { lat: 43.222508605467127, lng: -79.916662440761016 }, // Example starting point
-    { lat: 43.222474629272796, lng: -79.916677664180142 }, // Example ending point
-  ]);
-  // load script for google map
-  const { isLoaded } = useLoadScript({
-    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY,
+  console.log(typeof parentToChild.parentToChild, "maps test");
+  const { isLoaded, loadError } = useLoadScript({
+    googleMapsApiKey: parentToChild.parentToChild,
   });
 
   const fetchData = async () => {
@@ -61,30 +56,22 @@ export default function Map() {
       console.error("Error retrieving data:", error);
     }
   };
+
   useEffect(() => {
     fetchData();
     fetchData_bikeRack();
     fetchData_bikePath();
   }, []);
 
-  useEffect(() => {
-    if (bikePath) console.log(bikePath[0].geometry.coordinates[0][1]);
-  }, [bikePath]);
-
-  if (!isLoaded) return <div>Loading....</div>;
+  if (loadError) return <div>Error loading Google Maps</div>;
+  if (!isLoaded) return <div>Loading...</div>;
+  // useEffect(() => {
+  //   if (bikePath) console.log(bikePath[0].geometry.coordinates[0][1]);
+  // }, [bikePath]);
 
   // static lat and lng
   var center = { lat: 0, lng: 0 };
 
-  const handlePlaceChanged = () => {
-    const place = autocompleteRef.current.getPlace();
-    setSelectedPlace(place);
-    setSearchLngLat({
-      lat: place.geometry.location.lat(),
-      lng: place.geometry.location.lng(),
-    });
-    setCurrentLocation(null);
-  };
   const handleGetLocationClick = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -187,7 +174,7 @@ export default function Map() {
                 onClick={() => setMakerUiF(key)} //set with key
               />
             ))}
-          <Polyline path={path} options={{ strokeColor: "#FF0000" }} />
+          {/* <Polyline path={path} options={{ strokeColor: "#FF0000" }} /> */}
           {bikePath &&
             Object.keys(bikePath).map((key, index) => (
               <Polyline
@@ -199,6 +186,7 @@ export default function Map() {
               />
             ))}
         </GoogleMap>
+
         {markerUi && (
           <div
             id="defaultModal"

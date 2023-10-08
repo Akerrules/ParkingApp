@@ -1,8 +1,6 @@
 from flask import Flask
-import json 
 import requests
-from flask import jsonify, request,make_response
-import pandas as pd
+from flask import jsonify
 import geojson
 
 geojson.geometry.DEFAULT_PRECISION = 15
@@ -15,15 +13,22 @@ def hello_world():
     return jsonify("Hello World!")
 
 
-
+@app.route('/api/googelmapApi', methods=['GET'])
+def google_map_api():
+   
+    return ""
 
 def readData(url):
-    res = requests.get(url).text
-    gj = geojson.loads(res)
-    features = gj['features']
     dic = {}
-    for i in range(len(features)):
-        dic[i] = features[i]
+    try:
+        res = requests.get(url, verify=False, timeout=5).text
+        gj = geojson.loads(res)
+        features = gj['features']
+        for i in range(len(features)):
+            dic[i] = features[i]
+    except requests.exceptions.ConnectionError:
+            print("Site not rechable", url)
+    
     return dic
 
 

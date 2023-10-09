@@ -8,7 +8,7 @@ const nextConfig = {
         destination:
           process.env.NODE_ENV === "production"
             ? "https://adityakjun.pythonanywhere.com/api/:path*"
-            : "https://adityakjun.pythonanywhere.com/api/", // Proxy to Backend
+            : "https://adityakjun.pythonanywhere.com/api/",
       },
     ];
   },

@@ -4,7 +4,6 @@ export default function MarkerUi(parentToChild) {
   return (
     <main>
       <div>
-        {" "}
         <div
           id="defaultModal"
           aria-hidden="true"

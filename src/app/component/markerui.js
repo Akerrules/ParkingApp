@@ -3,7 +3,6 @@ import { useState, useRef, useEffect } from "react";
 export default function MarkerUi(parentToChild) {
   return (
     <main>
-      <div></div>
       <div>
         <div
           id="defaultModal"
